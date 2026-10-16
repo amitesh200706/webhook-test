@@ -101,3 +101,28 @@ This diff introduces a Python script with a balance withdrawal function and a na
 A new script named `more_bugs.py` is added, defining a global variable `balance` set to 100 alongside a `withdraw` function that decrements and prints the balance. It also defines a `greet` function that loops through a list of names to print a greeting. Finally, the script executes both functions by withdrawing 200 from the balance and attempting to greet Alice and Bob.
 
         ---
+
+## PR #7 — test 7
+
+        - **Repository:** `amitesh200706/webhook-test`
+        - **Action:** `opened`
+        - **Reviewed commit:** `bf8cceb021d5b37eb0b2c39e491d2c4a4c714d27`
+        - **Generated at:** 2026-10-16 09:01:54 UTC
+
+        ### Gemini Review
+
+        **Summary**
+This diff introduces severe security vulnerabilities and runtime errors by executing unsanitized shell commands and failing to handle out-of-bounds index and `None` reference errors. It is not ready to merge.
+
+**Blockers**
+1. `obvious_bugs2.py`, line 4: The code passes direct, unvalidated `user_input` into a `subprocess.call` with `shell=True`. This creates a critical command injection vulnerability allowing attackers to execute arbitrary shell commands. Use `subprocess.call(["ping", user_input])` with `shell=False` to safely pass arguments without shell interpretation.
+2. `obvious_bugs2.py`, line 7: Accessing `items[3]` on a list of length 3 raises an `IndexError`. Bounds checking or valid index selection is required.
+3. `obvious_bugs2.py`, line 13: Accessing `user["name"]` when `get_user()` returns `None` triggers a `TypeError`. Guard against `None` returns before accessing dictionary keys.
+
+**Warnings**
+No warnings found.
+
+**Changes**
+The added file `obvious_bugs2.py` implements a script that prompts for a server IP and runs a system ping command using it. It then defines a list of three integers and attempts to print the element at index three, which exceeds the list's bounds. Finally, it defines a function returning `None` and immediately attempts to access a dictionary key on that null return value.
+
+        ---
